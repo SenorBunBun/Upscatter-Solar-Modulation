@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Variables}
+\author{Arsh Suri}
+\date{July 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Defining the Signal Time Series}
+The Signal Time Series is the predicted time-dependent particle event rate of 
+Heavy Neutral Leptons (HNLs), $N$, decay. This predicted signal should be at its minimum at Mid-day and its max at midnight due to the rotation of the Earth. This modulation, for our purposes, 
+can be represented as a sinusoidal wave whose amplitude is dictated by the HNLs mass, $M_{N}$, 
+and its dipole coupling strength, $d_{N}$.
+
+\section{Defining the Background Time Series}
+The Background Time Series is the total resulting time-independent event rate of the different nuclear reactions, beta decays, and others producing neutrinos. This background should be relatively constant throughout time.  
+
+\section{Computing Expected Background Rate}
+To compute the Expected Background rate, it is the sum of the different background events per
+day per a 100T per a $N_{h}$. Representing the different backgrounds as $Bkg_{0}(N_{h})$, 
+$Bkg_{1}(N_{h})$, $Bkg_{2}(N_{h})$, ... $Bkg_{n}(N_{h})$. For instance the predicted events per day for polonium 210 at 200 Hits can be $Bkg_{0}(200)$. By setting a max and min number of hits, $H_{min}$ and 
+$H_{max}$ this background rate can be represented as
+
+\begin{equation}
+   \lambda_{bkg} = \sum_{i=0}^{n} \int_{H_{min}}^{H_{max}} Bkg_{i}(N_{h}) dN_{h}
+\end{equation}
+
+where $n$ is the number of backgrounds. Then we can generate samples using a Poisson Distribution with the mean of $\lambda_{bkg}$.
+
+\section{Computing Expected Signal Rate in the Off and On Bin}
+We can set up a sine wave with the formula
+
+\begin{equation}
+    sig(t) = A\sin\left(\frac{\pi}{12}\left(t+6\right)\right)+A 
+\end{equation}
+where A is the amplitude determined by $d_{N}$ and $M_{N}$. In this formula, the time is measured in hours and it will give us the expected event rate. We can represent the expected signal event rate in the 12 hour off-bin as
+
+\begin{equation}
+  \lambda_{off} = \int_{0}^{12} [A\sin\left(\frac{\pi}{12}\left(t+6\right)\right)+A] dt
+\end{equation}
+
+and the expected number of events in the 12 hour on-bin as
+
+\begin{equation}
+   \lambda_{on} = \int_{12}^{24} [A\sin\left(\frac{\pi}{12}\left(t+6\right)\right)+A] dt
+\end{equation}
+
+\section{Generating Observable}
+These computed values can allow us to generate observable. For the off-bin, the observable number of events can be calculated as
+
+\begin{equation}
+    P_{off} = Pois(\lambda_{bkg}) + Pois(\lambda_{off})
+\end{equation}
+
+Similarly, the observable number of events in the on-bin can be calculated as 
+\begin{equation}
+    P_{on} = Pois(\lambda_{bkg}) + Pois(\lambda_{on})
+\end{equation}
+
+\end{document}
