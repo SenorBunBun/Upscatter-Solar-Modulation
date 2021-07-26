@@ -3,7 +3,7 @@ import scipy.interpolate
 import datautilities
 import numpy as np
 import matplotlib.pyplot as plt
-
+from matplotlib import ticker, cm
 
 
 unprocessedSig = kfp.read_csv("Signal Data/rateTable.csv", header=None)
@@ -53,11 +53,11 @@ dailyratearray = np.array(dailyrate)
 # print(dailyratearray)
 
 Ti = scipy.interpolate.griddata( (massarray, dipolearray), dailyratearray, (X, Y), method='cubic')
-plt.contourf(X, Y, Ti)
+plt.contourf(X, Y, Ti,  locator=ticker.LogLocator(), cmap=cm.PuBu_r )
 plt.yscale('log')
 plt.xscale('log')
 plt.title("Contour Plot: Expected Number of Events in 24 hours | Mass and $d_{n}$ ")
 plt.ylabel('Dipole Coupling Strength ($log_{10}$)')
-plt.xlabel('Mass (kEV $log_{10}$ )')
+plt.xlabel('Mass (meV $log_{10}$ )')
 plt.tight_layout()
 plt.show()
