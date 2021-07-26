@@ -52,7 +52,7 @@ for data in range( len(unprocessedSig[2]) ):
 dailyratearray = np.array(dailyrate)
 # print(dailyratearray)
 
-Ti = scipy.interpolate.griddata( (massarray, dipolearray), dailyratearray, (X, Y), method='cubic')
+Ti = scipy.interpolate.griddata( (massarray, dipolearray), dailyratearray, (X, Y), method='linear')
 plt.contourf(X, Y, Ti,  locator=ticker.LogLocator(), cmap=cm.PuBu_r )
 plt.yscale('log')
 plt.xscale('log')
