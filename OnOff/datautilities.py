@@ -1,6 +1,6 @@
 from scipy import integrate
 import numpy as np
-
+from math import sin, pi
 
 # min1 = 30
 # max1 = 50
@@ -27,10 +27,9 @@ def pdintegratedict(dictdata, minh, maxh):
     return total
 
 def signalintegral(amplitude, binstart, binend):
-    def modulation(localamplitude, x):
-        return localamplitude*np.sin( (np.pi/12)*x + np.pi/2) + localamplitude
-    localamplitude = amplitude
-    return integrate.quad(modulation, binstart, binend, args=localamplitude)
+    def modulation(x):
+        return amplitude * sin( (pi/12)*x + pi/2) + amplitude
+    return integrate.quad(modulation, binstart, binend)
 
 
 # print(pdintegratedict(dict1, min1, max1))
