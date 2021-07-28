@@ -1,5 +1,5 @@
 import pandas as kfp
-import scipy.interpolate
+import scipy.interpolate as interp
 import datautilities
 import numpy as np
 import matplotlib.pyplot as plt
@@ -45,14 +45,17 @@ amplitudearray = np.array(unprocessedSig[2])
 dailyrate = []
 # print(datautilities.signalintegral(1, 6, 32))
 for data in range( len(unprocessedSig[2]) ):
-    temprate = datautilities.signalintegral(unprocessedSig[2][data], 6, 32)[0]
+    temprate = datautilities.signalintegral(unprocessedSig[2][data], 6, 30)[0]
     # print(temprate)
     dailyrate.append(temprate)
 
 dailyratearray = np.array(dailyrate)
 # print(dailyratearray)
 
-Ti = scipy.interpolate.griddata( (massarray, dipolearray), dailyratearray, (X, Y), method='linear')
+dailyratearray.sort()
+# print(dailyratearray)
+
+Ti = interp.griddata( (massarray, dipolearray), dailyratearray, (X, Y), method='linear')
 plt.contourf(X, Y, Ti,  locator=ticker.LogLocator())
 plt.yscale('log')
 plt.xscale('log')
