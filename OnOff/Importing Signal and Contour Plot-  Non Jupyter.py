@@ -1,5 +1,6 @@
 import pandas as kfp
 import scipy.interpolate as interp
+import scipy.ndimage as nd
 import datautilities
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,6 +25,8 @@ print(datautilities.signalintegral(1, 6, 18))
 
 # [X, Y] = np.meshgrid(unprocessedSig[0][0:4], unprocessedSig[1][0:4])
 [X, Y] = np.meshgrid(unprocessedSig[0], unprocessedSig[1])
+[X, Y] = np.meshgrid(nd.zoom(unprocessedSig[0], 5), nd.zoom(unprocessedSig[1], 20))
+
 # print("X, Y")
 # print(X)
 # print("X End")
@@ -55,13 +58,19 @@ dailyratearray = np.array(dailyrate)
 dailyratearray.sort()
 # print(dailyratearray)
 
-Ti = interp.griddata( (massarray, dipolearray), dailyratearray, (X, Y), method='linear')
-plt.contourf(X, Y, Ti,  locator=ticker.LogLocator())
-plt.yscale('log')
-plt.xscale('log')
-plt.title("Contour Plot: Expected Number of Events in 24 hours | Mass and $d_{n}$ ")
-plt.ylabel('Dipole Coupling Strength ($log_{10}$)')
-plt.xlabel('Mass (meV $log_{10}$ )')
+# massarray = nd.zoom(massarray, 5)
+# dipolearray = nd.zoom(dipolearray, 5)
+# amplitudearray = nd.zoom(amplitudearray, 5)
+
+
+Ti = interp.griddata( (massarray, dipolearray), amplitudearray, (X, Y), method='linear')
+plt.contourf(X, Y, Ti, locator=ticker.LogLocator())
+
+# plt.yscale('log')
+# plt.xscale('log')
+plt.title("Contour Plot: Expected Number of Events in 24 hours | Mass and $d_{n}$ ", y=1.05)
+plt.ylabel('Dipole Coupling Strength ($d_{N}$)')
+plt.xlabel('Mass (meV)')
 plt.tight_layout()
 plt.legend()
 plt.show()

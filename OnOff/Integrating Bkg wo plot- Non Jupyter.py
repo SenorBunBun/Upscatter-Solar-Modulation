@@ -26,6 +26,8 @@ allbkg = {
 
 }
 
+print(allbkg['Bi210'])
+
 # Hits Corresponding to 300 KeV
 minhits = 134.09523809523805
 
