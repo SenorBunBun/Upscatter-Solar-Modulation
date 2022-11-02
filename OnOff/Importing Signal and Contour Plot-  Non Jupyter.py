@@ -63,7 +63,7 @@ dailyratearray.sort()
 # amplitudearray = nd.zoom(amplitudearray, 5)
 
 
-Ti = interp.griddata( (massarray, dipolearray), amplitudearray, (X, Y), method='linear')
+Ti = interp.griddata( (massarray, dipolearray), amplitudearray, (X, Y), method='cubic')
 plt.contourf(X, Y, Ti, locator=ticker.LogLocator())
 
 # plt.yscale('log')

@@ -7,9 +7,10 @@ global lambdaon, lambdaoff, lambdabkg
 obsdata = kfp.read_csv('Generated Data/PoissonNoSig1Day_2021-07-30 010022.386052.csv', usecols=['Night', 'Day'])
 nightobs = float(obsdata['Night'])
 dayobs = float(obsdata['Day'])
-deltaobs = nightobs - dayobs
+deltaobs = 0
 sumobs = nightobs + dayobs
 
+print(deltaobs)
 lambdaon = 0
 lambdaoff = 0
 lambdabkg = 246.46183123942518
@@ -25,6 +26,13 @@ def a2sigma(con, coff, deltaobs, lambdabkg):
 # Given by Integration
 sineCon = (12 * pi + 24) / pi
 sineCoff = (12 * pi - 24) / pi
+print(sineCon)
+print(sineCoff)
+
 
 print(integrate.quad(deltapdf, deltaobs, inf))
 print(a2sigma(sineCon, sineCoff, deltaobs, lambdabkg))
+print(sineCon - sineCoff)
+print( (sineCon - sineCoff) * a2sigma(sineCon, sineCoff, deltaobs, lambdabkg) )
+print( (sineCoff+ sineCon)*a2sigma(sineCon, sineCoff, deltaobs, lambdabkg))
+print( np.sqrt(2* lambdabkg + sineCon + sineCoff) )
